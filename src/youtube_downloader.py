@@ -13,9 +13,8 @@ class YouTubeDownloader:
         self.max_retries = 1
 
     def download(self) -> None :
+        print(colored('Connecting to YouTube...', color='white', attrs=['bold'], on_color='on_grey'))
         for file_number, l in enumerate(self.links) :
-            print(colored('Connecting to YouTube...', color='white', attrs=['bold', 'blink'], on_color='on_grey'))
-
             yt = pytube.YouTube(l,
                 on_progress_callback=on_progress,
             )
@@ -30,8 +29,8 @@ class YouTubeDownloader:
                 stream = yt.streams.get_lowest_resolution()
 
             if stream :
-                print(colored('Starting the Download process...', color='white', attrs=['bold', 'blink'], on_color='on_grey'))
-                print(colored(f"File Name :{stream.title}", color='cyan'))
+                print(colored('Starting the Download process...', color='white', attrs=['bold'], on_color='on_grey'))
+                print(colored(f"File Name :{stream.title}", color='cyan',))
             
                 file_name = self.build_sanitized_filename(stream.title, file_number)
                 stream.download(
@@ -39,8 +38,8 @@ class YouTubeDownloader:
                     filename= file_name,
                     max_retries=self.max_retries,
                     )
-            print(colored('\n\nFile Downloaded!\n', color='grey',
-                          attrs=['bold', 'blink', 'underline'], on_color='on_green'))
+            print(colored('\nFile Downloaded!\n', color='grey',
+                          attrs=['bold',], on_color='on_green'))
             
     
     @staticmethod 
@@ -52,14 +51,13 @@ class YouTubeDownloader:
         
     @classmethod
     def get_links(cls, link) :
-        print(colored('Gathering links...', color='white', attrs=['bold', 'blink'], on_color='on_grey'))
+        print(colored('Gathering links...', color='white', attrs=['bold', ], on_color='on_grey'))
         if cls.is_playlist(link) :
             playlist = pytube.Playlist(link)
             links = playlist.video_urls 
         else : 
             links = [link]
             
-        print(colored('Done!', color='white', attrs=['bold', 'blink'], on_color='on_grey'))
         return links
     
 
